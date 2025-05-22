@@ -268,9 +268,25 @@
           const email = document.getElementById('email').value;
           const message = document.getElementById('message').value;
           if (name && email && message) {
-            // In a real scenario, you would send this data to a server
-            showToast('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ sớm liên hệ với bạn.', 'success');
-            contactForm.reset();
+            // Gửi dữ liệu đến server
+            fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({ name, email, message })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                showToast('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ sớm liên hệ với bạn.', 'success');
+                contactForm.reset();
+              } else {
+                showToast('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.', 'error');
+              }
+            })
+            .catch(error => {
+              console.error('Lỗi kết nối:', error);
+              showToast('Có lỗi kết nối. Vui lòng kiểm tra lại.', 'error');
+            });
           } else {
             showToast('Vui lòng điền đầy đủ các trường bắt buộc.', 'error');
           }
