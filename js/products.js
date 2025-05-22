@@ -9,7 +9,7 @@ let products = [];
 // Lấy dữ liệu sản phẩm từ API khi trang tải xong
 async function fetchProducts() {
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch('http://localhost:3000/api/products');
     const data = await response.json();
     products = data;
     renderProducts();
@@ -379,7 +379,7 @@ function setActiveCategory(selectedCategory) {
  */
 async function loadProducts() {
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch('http://localhost:3000/api/products');
     if (!response.ok) {
       throw new Error('Không thể tải dữ liệu sản phẩm');
     }

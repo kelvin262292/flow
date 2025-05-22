@@ -197,7 +197,7 @@ function filterProducts(category) {
  * Lấy dữ liệu sản phẩm từ API
  */
 async function fetchProducts(category = null) {
-  let url = '/api/products';
+  let url = 'http://localhost:3000/api/products';
   
   if (category && category !== 'all') {
     url += `?category=${category}`;
@@ -367,4 +367,4 @@ function getStarRating(rating) {
   }
   
   return stars;
-} 
+}

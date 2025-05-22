@@ -189,7 +189,7 @@ async function loadProductDetails() {
 async function loadSampleProductData() {
   try {
     // Tải tất cả sản phẩm
-    const response = await fetch('/api/products');
+    const response = await fetch('http://localhost:3000/api/products');
     if (!response.ok) {
       throw new Error('Không thể tải dữ liệu sản phẩm');
     }
