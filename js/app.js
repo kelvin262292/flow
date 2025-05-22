@@ -57,7 +57,7 @@ const app = {
     },
 
     loadCart() {
-        const storedCart = localStorage.getItem('jisuLifeCart');
+        const storedCart = localStorage.getItem('yapeeCart');
         if (storedCart) {
             this.cart = JSON.parse(storedCart);
         } else {
@@ -66,7 +66,7 @@ const app = {
     },
 
     saveCart() {
-        localStorage.setItem('jisuLifeCart', JSON.stringify(this.cart));
+        localStorage.setItem('yapeeCart', JSON.stringify(this.cart));
     },
 
     addToCart(productId) {
@@ -224,7 +224,7 @@ const app = {
                     <div>
                         <h4 class="text-xl font-bold mb-4 flex items-center">
                             <svg class="w-7 h-7 text-red-500 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                            JisuLife
+                            Yapee
                         </h4>
                         <p class="text-gray-400 mb-4 text-sm">Nâng tầm cuộc sống hiện đại với những thiết bị thông minh hàng đầu.</p>
                         <div class="flex space-x-4">
@@ -261,7 +261,7 @@ const app = {
                     </div>
                 </div>
                 <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-400 text-sm">
-                    <p>&copy; ${new Date().getFullYear()} JisuLife. Tất cả quyền được bảo lưu.</p>
+                    <p>&copy; ${new Date().getFullYear()} Yapee. Tất cả quyền được bảo lưu.</p>
                 </div>
             </div>
         </footer>
