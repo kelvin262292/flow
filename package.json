@@ -1,7 +1,7 @@
 {
   "name": "flow",
   "version": "1.0.0",
-  "description": "JisuLife Vietnam - Smart Home Appliances",
+  "description": "Yapee Vietnam - Smart Home Appliances",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

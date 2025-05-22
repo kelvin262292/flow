@@ -365,8 +365,7 @@ function loadOrderHistory() {
     status: 'Đã giao',
     total: 4990000,
     items: [
-      {
-        name: 'Máy lọc không khí JisuLife A8',
+      { name: 'Máy lọc không khí Yapee A8',
         quantity: 1,
         price: 4990000
       }
@@ -380,7 +379,7 @@ function loadOrderHistory() {
     total: 2990000,
     items: [
       {
-        name: 'Máy lọc không khí JisuLife P9',
+        name: 'Máy lọc không khí Yapee P9',
         quantity: 1,
         price: 2990000
       }

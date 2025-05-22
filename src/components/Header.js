@@ -25,7 +25,7 @@ const Header = () => {
             <path d="M22 7V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M12 12V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">JisuLife</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Yapee</h1>
         </Link>
         
         <nav className="hidden md:flex items-center space-x-6">

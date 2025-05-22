@@ -345,7 +345,7 @@ function showOrderSuccess(orderData) {
       <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Đặt hàng thành công!</h2>
       
       <p class="text-gray-600 dark:text-gray-300 mb-6">
-        Cảm ơn bạn đã mua hàng tại JisuLife. Đơn hàng của bạn đã được tiếp nhận và đang được xử lý.
+        Cảm ơn bạn đã mua hàng tại Yapee. Đơn hàng của bạn đã được tiếp nhận và đang được xử lý.
         Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
       </p>
       

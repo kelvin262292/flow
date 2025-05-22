@@ -224,7 +224,7 @@ async function loadSampleProductData() {
  */
 function displayProductDetails(product) {
   // Cập nhật tiêu đề trang
-  document.title = `${product.name} - JisuLife`;
+  document.title = `${product.name} - Yapee`;
   
   // Sử dụng trực tiếp URL hình ảnh từ API
   const imageUrl = product.image || 'https://via.placeholder.com/300x300?text=No+Image';
@@ -302,7 +302,7 @@ function displayProductDetails(product) {
     // Tạo mô tả chi tiết sản phẩm
     const description = `
       <h2 class="text-xl font-semibold mb-3">Mô tả sản phẩm</h2>
-      <p class="mb-4">${product.name} là sản phẩm cao cấp từ JisuLife, được thiết kế để mang lại trải nghiệm tốt nhất cho người dùng.</p>
+      <p class="mb-4">${product.name} là sản phẩm cao cấp từ Yapee, được thiết kế để mang lại trải nghiệm tốt nhất cho người dùng.</p>
       
       <h3 class="text-lg font-semibold mb-2">Đặc điểm nổi bật</h3>
       <ul class="list-disc pl-5 mb-4 space-y-1">
@@ -317,7 +317,7 @@ function displayProductDetails(product) {
       <table class="w-full mb-4 border-collapse">
         <tr class="border-b border-gray-200 dark:border-gray-700">
           <td class="py-2 font-medium">Thương hiệu</td>
-          <td class="py-2">JisuLife</td>
+          <td class="py-2">Yapee</td>
         </tr>
         <tr class="border-b border-gray-200 dark:border-gray-700">
           <td class="py-2 font-medium">Model</td>
