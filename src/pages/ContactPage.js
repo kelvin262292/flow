@@ -8,7 +8,7 @@ const ContactPage = () => {
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold text-primary dark:text-secondary mb-4">Liên Hệ Với Chúng Tôi</h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Chúng tôi luôn sẵn lòng lắng nghe bạn. Hãy gửi thắc mắc hoặc góp ý cho JisuLife.
+            Chúng tôi luôn sẵn lòng lắng nghe bạn. Hãy gửi thắc mắc hoặc góp ý cho Yapee.
           </p>
         </header>
 
@@ -57,7 +57,7 @@ const ContactPage = () => {
                 </li>
                 <li className="flex items-center">
                   <i className="fas fa-envelope fa-fw w-6 text-primary dark:text-secondary"></i>
-                  <a href="mailto:support@jisulife.com.vn" className="hover:text-primary dark:hover:text-secondary transition">support@jisulife.com.vn</a>
+                  <a href="mailto:support@yapee.com.vn" className="hover:text-primary dark:hover:text-secondary transition">support@yapee.com.vn</a>
                 </li>
                 <li className="flex items-center">
                   <i className="fas fa-clock fa-fw w-6 text-primary dark:text-secondary"></i>

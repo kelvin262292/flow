@@ -1,5 +1,5 @@
 /**
- * Testimonials module for JisuLife ecommerce website
+ * Testimonials module for Yapee ecommerce website
  * Manages testimonial carousel functionality
  */
 

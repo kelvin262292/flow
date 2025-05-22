@@ -84,7 +84,7 @@ const products = [
 const testimonials = [
   {
     name: "Nguyễn Văn An",
-    text: "Sản phẩm JisuLife thực sự chất lượng, thiết kế đẹp mà dùng cũng rất thích. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop dài dài!",
+    text: "Sản phẩm Yapee thực sự chất lượng, thiết kế đẹp mà dùng cũng rất thích. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop dài dài!",},{
     rating: 5,
     avatar: "https://placehold.co/100x100/FFC107/000000?text=NA"
   },
@@ -96,7 +96,8 @@ const testimonials = [
   },
   {
     name: "Lê Văn Cường",
-    text: "Dịch vụ hỗ trợ khách hàng của JisuLife rất tốt. Mình có thắc mắc về cách sử dụng được giải đáp rất nhiệt tình. Quạt dùng mát, chắc chắn.",
+    text: "Dịch vụ hỗ trợ khách hàng của Yapee rất tốt. Mình có thắc mắc về cách sử dụng được giải đáp rất nhiệt tình. Quạt dùng mát, chắc chắn."}]}}}
+
     rating: 5,
     avatar: "https://placehold.co/100x100/2196F3/FFFFFF?text=LC"
   },

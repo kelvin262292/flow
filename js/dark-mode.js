@@ -1,5 +1,5 @@
 /**
- * Dark mode module for JisuLife ecommerce website
+ * Dark mode module for Yapee ecommerce website
  * Manages dark mode preferences and UI updates
  */
 
@@ -44,7 +44,7 @@ function updateDarkModeUI() {
  */
 function saveDarkModePreference() {
   try {
-    localStorage.setItem('jisulifeDarkMode', darkMode ? 'true' : 'false');
+    localStorage.setItem('yapeeDarkMode', darkMode ? 'true' : 'false');
   } catch (error) {
     console.error('Error saving dark mode preference:', error);
   }
@@ -55,7 +55,7 @@ function saveDarkModePreference() {
  */
 function loadDarkModePreference() {
   try {
-    const savedPreference = localStorage.getItem('jisulifeDarkMode');
+    const savedPreference = localStorage.getItem('yapeeDarkMode');
     if (savedPreference !== null) {
       darkMode = savedPreference === 'true';
       updateDarkModeUI();
@@ -93,7 +93,7 @@ function initDarkMode() {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       const systemPrefersDark = e.matches;
       // Only update if user hasn't explicitly set a preference
-      if (localStorage.getItem('jisulifeDarkMode') === null) {
+      if (localStorage.getItem('yapeeDarkMode') === null) {
         darkMode = systemPrefersDark;
         updateDarkModeUI();
       }

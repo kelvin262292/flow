@@ -1,5 +1,5 @@
-const CART_STORAGE_KEY = 'jisuLifeCartItems';
-const DARK_MODE_KEY = 'jisuLifeDarkMode';
+const CART_STORAGE_KEY = 'yapeeCartItems';
+const DARK_MODE_KEY = 'yapeeDarkMode';
 
 function getCartItems() {
   try {

@@ -1,5 +1,5 @@
 /**
- * Products module for JisuLife ecommerce website
+ * Products module for Yapee ecommerce website
  * Manages product data, filtering, and rendering
  */
 

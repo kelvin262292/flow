@@ -11,7 +11,7 @@ const OrderConfirmationPage = () => {
                 <i className="fas fa-check-circle fa-5x text-green-500 dark:text-green-400 mb-6 animate-pulse"></i>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Đặt hàng thành công!</h1>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
-                    Cảm ơn bạn đã mua sắm tại JisuLife. Đơn hàng của bạn đã được ghi nhận.
+                    Cảm ơn bạn đã mua sắm tại Yapee. Đơn hàng của bạn đã được ghi nhận.
                 </p>
 
                 {orderData && (

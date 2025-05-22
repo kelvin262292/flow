@@ -15,7 +15,7 @@ const Footer = () => {
                 <path d="M22 7V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M12 12V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              JisuLife
+              Yapee
             </h4>
             <p className="text-gray-400 mb-4 text-sm">Nâng tầm cuộc sống hiện đại với những thiết bị thông minh hàng đầu.</p>
             <div className="flex space-x-4">
@@ -63,7 +63,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} JisuLife Vietnam. Tất cả quyền được bảo lưu.</p>
+          <p>&copy; {new Date().getFullYear()} Yapee Vietnam. Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>

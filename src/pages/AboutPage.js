@@ -5,7 +5,7 @@ const AboutPage = () => {
     <div className="bg-white dark:bg-gray-900 py-12 md:py-16">
       <div className="container mx-auto px-4">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary dark:text-secondary mb-4">Về JisuLife Vietnam</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-primary dark:text-secondary mb-4">Về Yapee Vietnam</h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
             Nâng tầm chất lượng cuộc sống của bạn với các giải pháp gia dụng thông minh, tiện lợi và phong cách.
           </p>
@@ -15,8 +15,8 @@ const AboutPage = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <img 
-                src="https://placehold.co/800x600/e2e8f0/334155?text=JisuLife+Team" 
-                alt="Đội ngũ JisuLife" 
+                src="https://placehold.co/800x600/e2e8f0/334155?text=Yapee+Team" 
+                alt="Đội ngũ Yapee" 
                 className="rounded-xl shadow-xl w-full h-auto object-cover"
                 loading="lazy"
               />
@@ -24,7 +24,7 @@ const AboutPage = () => {
             <div className="prose dark:prose-invert lg:prose-lg max-w-none text-gray-700 dark:text-gray-300">
               <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-4">Sứ Mệnh Của Chúng Tôi</h2>
               <p>
-                Tại JisuLife, chúng tôi tin rằng công nghệ có thể làm cho cuộc sống hàng ngày trở nên đơn giản, thoải mái và thú vị hơn. Sứ mệnh của chúng tôi là mang đến những sản phẩm gia dụng thông minh, chất lượng cao với thiết kế tinh tế, giúp bạn tạo ra một không gian sống lý tưởng.
+                Tại Yapee, chúng tôi tin rằng công nghệ có thể làm cho cuộc sống hàng ngày trở nên đơn giản, thoải mái và thú vị hơn. Sứ mệnh của chúng tôi là mang đến những sản phẩm gia dụng thông minh, chất lượng cao với thiết kế tinh tế, giúp bạn tạo ra một không gian sống lý tưởng.
               </p>
               <p>
                 Chúng tôi không ngừng nghiên cứu và phát triển để đổi mới, từ những chiếc quạt mini tiện dụng, máy tạo ẩm thông minh cho đến các thiết bị lọc không khí tiên tiến. Mỗi sản phẩm đều được chăm chút tỉ mỉ từ khâu thiết kế đến sản xuất, đảm bảo đáp ứng nhu cầu và vượt trên cả sự mong đợi của khách hàng.
@@ -62,7 +62,7 @@ const AboutPage = () => {
           {/* Placeholder for team members or further info */}
           <img 
             src="https://placehold.co/1200x400/cbd5e1/475569?text=Our+Awesome+Team+Working" 
-            alt="Đội ngũ JisuLife đang làm việc" 
+            alt="Đội ngũ Yapee đang làm việc" 
             className="rounded-xl shadow-lg w-full h-auto object-cover"
             loading="lazy"
           />

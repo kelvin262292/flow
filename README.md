@@ -1,13 +1,13 @@
-# JisuLife Vietnam - Nâng Tầm Cuộc Sống Hiện Đại
+# Yapee Vietnam - Nâng Tầm Cuộc Sống Hiện Đại
 
 ## Giới Thiệu Dự Án
-JisuLife Vietnam là một trang web thương mại điện tử tập trung vào các sản phẩm gia dụng thông minh, bao gồm thiết bị gia đình thông minh, quạt, máy sưởi, máy lọc không khí. Trang web cung cấp trải nghiệm người dùng linh hoạt với hỗ trợ chế độ tối (dark mode) và các chức năng quản lý tài khoản cơ bản.
+Yapee Vietnam là một trang web thương mại điện tử tập trung vào các sản phẩm gia dụng thông minh, bao gồm thiết bị gia đình thông minh, quạt, máy sưởi, máy lọc không khí. Trang web cung cấp trải nghiệm người dùng linh hoạt với hỗ trợ chế độ tối (dark mode) và các chức năng quản lý tài khoản cơ bản.
 
 ### Sứ Mệnh
-Tại JisuLife Vietnam, sứ mệnh của chúng tôi là không ngừng tìm tòi, phát triển và cung cấp các sản phẩm công nghệ gia dụng thông minh, chất lượng cao với thiết kế tinh tế. Chúng tôi mong muốn mỗi sản phẩm không chỉ giải quyết các nhu cầu thiết thực mà còn mang lại trải nghiệm sống tốt đẹp hơn, tiện nghi hơn cho mỗi gia đình Việt.
+Tại Yapee Vietnam, sứ mệnh của chúng tôi là không ngừng tìm tòi, phát triển và cung cấp các sản phẩm công nghệ gia dụng thông minh, chất lượng cao với thiết kế tinh tế. Chúng tôi mong muốn mỗi sản phẩm không chỉ giải quyết các nhu cầu thiết thực mà còn mang lại trải nghiệm sống tốt đẹp hơn, tiện nghi hơn cho mỗi gia đình Việt.
 
 ### Tầm Nhìn
-JisuLife Vietnam hướng đến mục tiêu trở thành thương hiệu hàng đầu trong lĩnh vực thiết bị gia dụng thông minh tại Việt Nam và khu vực. Chúng tôi không chỉ tập trung vào việc cung cấp sản phẩm mà còn xây dựng một cộng đồng người dùng yêu thích công nghệ, chia sẻ kinh nghiệm và cùng nhau khám phá những tiện ích mà cuộc sống hiện đại mang lại. Tầm nhìn của chúng tôi là một tương lai nơi mọi ngôi nhà đều được trang bị những giải pháp thông minh từ JisuLife, góp phần tạo nên một cuộc sống dễ dàng và hạnh phúc hơn.
+Yapee Vietnam hướng đến mục tiêu trở thành thương hiệu hàng đầu trong lĩnh vực thiết bị gia dụng thông minh tại Việt Nam và khu vực. Chúng tôi không chỉ tập trung vào việc cung cấp sản phẩm mà còn xây dựng một cộng đồng người dùng yêu thích công nghệ, chia sẻ kinh nghiệm và cùng nhau khám phá những tiện ích mà cuộc sống hiện đại mang lại. Tầm nhìn của chúng tôi là một tương lai nơi mọi ngôi nhà đều được trang bị những giải pháp thông minh từ Yapee, góp phần tạo nên một cuộc sống dễ dàng và hạnh phúc hơn.
 
 ## Công Nghệ Sử Dụng
 - **React 18+**: Xây dựng giao diện tương tác động với component-based architecture (nếu áp dụng).
@@ -43,7 +43,7 @@ flow/
 2. **Giao Diện Responsive**: Thiết kế đáp ứng với các kích thước màn hình (di động, tablet, desktop) nhờ TailwindCSS.
 3. **Thông Báo Toast**: Hiển thị thông báo khi thêm sản phẩm vào giỏ hàng (ví dụ: "Đã thêm vào giỏ hàng!").
 4. **Quản Lý Tài Khoản**: Trang `account.html` hỗ trợ xem lịch sử đơn hàng và cập nhật thông tin cá nhân.
-5. **Giới Thiệu Dự Án**: Trang `about.html` cung cấp thông tin chi tiết về sứ mệnh, tầm nhìn và giá trị cốt lõi của JisuLife Vietnam.
+5. **Giới Thiệu Dự Án**: Trang `about.html` cung cấp thông tin chi tiết về sứ mệnh, tầm nhìn và giá trị cốt lõi của Yapee Vietnam.
 6. **Giỏ Hàng (cart.html)**: Hiển thị danh sách sản phẩm đã thêm, hỗ trợ cập nhật số lượng và xóa sản phẩm. Thông báo toast được kích hoạt khi thêm sản phẩm.
 7. **Thanh Toán (checkout.html)**: Form nhập thông tin giao hàng, lựa chọn phương thức thanh toán (mockup).
 8. **Liên Hệ (contact.html)**: Hiển thị thông tin địa chỉ, số điện thoại, email và form liên hệ (mockup).
