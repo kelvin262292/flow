@@ -66,9 +66,17 @@
             <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
         </button>
         
-        <a href="account.html" aria-label="Tài khoản" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors"> <!-- Active state for account page -->
-            <i class="fas fa-user w-5 h-5 text-primary dark:text-primary"></i>
-        </a>
+        <div id="auth-container" class="flex items-center space-x-2 text-sm">
+          <!-- Default: Login/Register links -->
+          <a id="login-link" href="login.html" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition px-3 py-2 rounded-md">Đăng Nhập</a>
+          <a id="register-link" href="register.html" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition px-3 py-2 rounded-md">Đăng Ký</a>
+          <!-- Logged in: User info and logout -->
+          <div id="user-info" class="hidden items-center space-x-2">
+            <span id="username-display" class="text-gray-700 dark:text-gray-200 px-3 py-2"></span>
+            <a href="account.html" class="text-primary dark:text-primary font-semibold transition px-3 py-2 rounded-md">Tài Khoản</a> <!-- Active state for account page -->
+            <button id="logout-button" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition px-3 py-2 rounded-md">Đăng Xuất</button>
+          </div>
+        </div>
 
         <div class="relative">
           <a href="cart.html" aria-label="Giỏ hàng" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 relative transition-colors">
@@ -130,23 +138,32 @@
         <div id="profile" class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg">
           <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200">Thông Tin Cá Nhân</h3>
           <form class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Tên đăng nhập</label>
+              <p id="userName" class="w-full px-3 py-2 text-gray-700 dark:text-gray-200"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Email</label>
+              <p id="userEmail" class="w-full px-3 py-2 text-gray-700 dark:text-gray-200"></p>
+            </div>
+            <!-- Original form fields can be kept for updating info, but pre-filling them needs more logic -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="firstName" class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Tên</label>
-                <input type="text" id="firstName" value="Văn" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+                <input type="text" id="firstName" placeholder="Văn" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
               </div>
               <div>
                 <label for="lastName" class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Họ</label>
-                <input type="text" id="lastName" value="Nguyễn" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+                <input type="text" id="lastName" placeholder="Nguyễn" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
               </div>
             </div>
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Email</label>
-              <input type="email" id="email" value="nguyenvana@example.com" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+              <label for="email_form_input" class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Email (để thay đổi)</label>
+              <input type="email" id="email_form_input" placeholder="nguyenvana@example.com" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Số điện thoại</label>
-              <input type="tel" id="phone" value="090xxxxxxx" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
+              <input type="tel" id="phone" placeholder="090xxxxxxx" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white">
             </div>
             <div class="pt-2">
               <button type="submit" class="bg-primary hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-md shadow-sm transition-colors">Lưu Thay Đổi</button>
@@ -248,7 +265,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <!-- Add account specific JS if needed later -->
+  <script src="js/account-page.js" defer></script>
 </body>
 </html>
 

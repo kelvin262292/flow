@@ -111,6 +111,80 @@ document.addEventListener('DOMContentLoaded', function() {
     // });
   }
 
+  // Authentication UI Update
+  const authContainer = document.getElementById('auth-container');
+  const loginLink = document.getElementById('login-link');
+  const registerLink = document.getElementById('register-link');
+  const userInfoDiv = document.getElementById('user-info');
+  const usernameDisplay = document.getElementById('username-display');
+  const logoutButton = document.getElementById('logout-button');
+  const accountLink = userInfoDiv ? userInfoDiv.querySelector('a[href="account.html"]') : null; // More specific account link
+
+  async function updateAuthUI() {
+    if (!authContainer) { // If the auth container is not on the page, do nothing
+      // console.log('Auth container not found on this page.');
+      return;
+    }
+    try {
+      const response = await fetch('/api/auth/status');
+      if (!response.ok) { // Check if response is not OK (e.g. 404, 500)
+        console.error('Failed to fetch auth status:', response.status);
+        // Show default (logged out) state on error
+        if (loginLink) loginLink.style.display = 'inline';
+        if (registerLink) registerLink.style.display = 'inline';
+        if (userInfoDiv) userInfoDiv.classList.add('hidden');
+        return;
+      }
+      const data = await response.json();
+
+      if (data.isLoggedIn) {
+        if (loginLink) loginLink.style.display = 'none';
+        if (registerLink) registerLink.style.display = 'none';
+        if (userInfoDiv) {
+          userInfoDiv.classList.remove('hidden');
+          if (usernameDisplay) usernameDisplay.textContent = data.username || 'User';
+          if (accountLink) accountLink.style.display = 'inline'; // Ensure account link is visible
+        }
+        if (logoutButton) {
+          logoutButton.style.display = 'inline';
+          logoutButton.removeEventListener('click', handleLogout); // Remove previous listener to avoid duplicates
+          logoutButton.addEventListener('click', handleLogout);
+        }
+      } else {
+        if (loginLink) loginLink.style.display = 'inline';
+        if (registerLink) registerLink.style.display = 'inline';
+        if (userInfoDiv) userInfoDiv.classList.add('hidden');
+      }
+    } catch (error) {
+      console.error('Error updating auth UI:', error);
+      // Optionally show logged-out state as a fallback
+      if (loginLink) loginLink.style.display = 'inline';
+      if (registerLink) registerLink.style.display = 'inline';
+      if (userInfoDiv) userInfoDiv.classList.add('hidden');
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      const response = await fetch('/api/auth/logout', { method: 'POST' });
+      const data = await response.json();
+      if (response.ok) {
+        showToast(data.message || 'Đăng xuất thành công!', 'success');
+        // No need to redirect here, updateAuthUI will handle UI changes.
+        // If redirect is desired: window.location.href = 'index.html';
+      } else {
+        showToast(data.message || 'Đăng xuất thất bại.', 'error');
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+      showToast('Lỗi khi đăng xuất.', 'error');
+    }
+    updateAuthUI(); // Refresh UI after logout attempt
+  }
+
+  // Initial call to set UI based on auth state
+  updateAuthUI();
+
 });
 
 
