@@ -49,6 +49,18 @@
       </nav>
 
       <div class="flex items-center space-x-3 sm:space-x-4">
+        <div id="auth-container" class="flex items-center space-x-2 text-sm">
+          <!-- Default: Login/Register links -->
+          <a id="login-link" href="login.html" class="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition px-3 py-2 rounded-md">Đăng Nhập</a>
+          <a id="register-link" href="register.html" class="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition px-3 py-2 rounded-md">Đăng Ký</a>
+          <!-- Logged in: User info and logout -->
+          <div id="user-info" class="hidden items-center space-x-2">
+            <span id="username-display" class="text-gray-700 dark:text-gray-200 px-3 py-2"></span>
+            <a href="account.html" class="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition px-3 py-2 rounded-md">Tài Khoản</a>
+            <button id="logout-button" class="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition px-3 py-2 rounded-md">Đăng Xuất</button>
+          </div>
+        </div>
+        
         <button id="globalDarkModeToggle" aria-label="Toggle dark mode" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
           <!-- SVG icon will be set by js/main.js -->
         </button>
