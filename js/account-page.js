@@ -224,226 +224,243 @@ function showAccountInfo() {
 /**
  * Tải lịch sử đơn hàng
  */
-function loadOrderHistory() {
-  if (!orderHistory || !currentUser) return;
-  
-  // Lấy đơn hàng từ localStorage (trong thực tế, dữ liệu này sẽ được lấy từ API)
-  const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
-  const orders = [];
-  
-  if (lastOrder) {
-    // Thêm đơn hàng mẫu
-    orders.push({
-      id: 'ORD-' + Date.now(),
-      date: new Date().toLocaleDateString('vi-VN'),
-      status: 'Đang xử lý',
-      total: lastOrder.total,
-      items: lastOrder.items
-    });
-  }
-  
-  // Thêm một số đơn hàng mẫu khác
-  orders.push({
-    id: 'ORD-20230501',
-    date: '01/05/2023',
-    status: 'Đã giao',
-    total: 4990000,
-    items: [
-      { name: 'Máy lọc không khí Yapee A8',
-        quantity: 1,
-        price: 4990000
-      }
-    ]
-  });
-  
-  orders.push({
-    id: 'ORD-20230415',
-    date: '15/04/2023',
-    status: 'Đã giao',
-    total: 2990000,
-    items: [
-      {
-        name: 'Máy lọc không khí Yapee P9',
-        quantity: 1,
-        price: 2990000
-      }
-    ]
-  });
-  
-  // Hiển thị đơn hàng
-  if (orders.length === 0) {
-    orderHistory.innerHTML = `
-      <div class="text-center py-8">
-        <p class="text-gray-500 dark:text-gray-400">Bạn chưa có đơn hàng nào.</p>
-      </div>
-    `;
+async function loadOrderHistory() {
+  if (!orderHistory || !currentUser) {
+    console.log('Order history element or current user not found.');
+    if (orderHistory) orderHistory.innerHTML = '<p class="text-gray-500 dark:text-gray-400">Không thể tải lịch sử đơn hàng.</p>';
     return;
   }
-  
-  let html = `
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-700">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Mã đơn hàng</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ngày đặt</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Trạng thái</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tổng tiền</th>
-            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Thao tác</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-  `;
-  
-  orders.forEach(order => {
-    // Format giá tiền
-    const formatter = new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    });
-    
-    const formattedTotal = formatter.format(order.total);
-    
-    html += `
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${order.id}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${order.date}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'Đang xử lý' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
-            ${order.status}
-          </span>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedTotal}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-          <button class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" data-order-id="${order.id}">Chi tiết</button>
-        </td>
-      </tr>
-    `;
-  });
-  
-  html += `
-        </tbody>
-      </table>
-    </div>
-  `;
-  
-  orderHistory.innerHTML = html;
-  
-  // Thêm sự kiện cho nút chi tiết
-  const detailButtons = orderHistory.querySelectorAll('button[data-order-id]');
-  detailButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const orderId = button.dataset.orderId;
-      const order = orders.find(o => o.id === orderId);
-      
-      if (order) {
-        showOrderDetail(order);
+
+  try {
+    const response = await fetch('/api/orders');
+    if (!response.ok) {
+      if (response.status === 401) {
+        if (window.showToast) window.showToast('Vui lòng đăng nhập để xem lịch sử đơn hàng.', 'error');
+        // Redirect handled by initial auth check, but good to be defensive
+      } else {
+        if (window.showToast) window.showToast('Không thể tải lịch sử đơn hàng.', 'error');
       }
+      orderHistory.innerHTML = `<p class="text-center text-gray-500 dark:text-gray-400 mt-6 text-sm">Không thể tải lịch sử đơn hàng. Vui lòng thử lại.</p>`;
+      return;
+    }
+
+    const orders = await response.json();
+
+    if (orders.length === 0) {
+      orderHistory.innerHTML = `
+        <div class="text-center py-8">
+          <p class="text-gray-500 dark:text-gray-400">Bạn chưa có đơn hàng nào.</p>
+           <a href="index.html#products" class="mt-4 inline-block bg-primary hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+            Bắt đầu mua sắm
+          </a>
+        </div>
+      `;
+      return;
+    }
+
+    // Clear placeholder or existing content
+    const orderHistoryContentContainer = document.querySelector('#orders div.space-y-4');
+    if (orderHistoryContentContainer) {
+        orderHistoryContentContainer.innerHTML = ''; // Clear default placeholders
+    } else {
+        orderHistory.innerHTML = ''; // Fallback clear
+    }
+    
+    // Create table structure for orders
+    let html = `
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Mã ĐH</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ngày Đặt</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tổng Tiền</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Trạng Thái</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+    `;
+
+    orders.forEach(order => {
+      const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+      const formattedTotal = formatter.format(order.total_amount);
+      const orderDate = new Date(order.order_date).toLocaleDateString('vi-VN');
+      
+      let statusClass = 'bg-gray-100 text-gray-800';
+      if (order.status === 'pending') statusClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+      else if (order.status === 'delivered' || order.status === 'shipped') statusClass = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+      else if (order.status === 'cancelled') statusClass = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+
+
+      html += `
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">#${order.order_id}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${orderDate}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedTotal}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+              ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button class="view-order-details text-primary hover:underline" data-order-id="${order.order_id}">Xem chi tiết</button>
+          </td>
+        </tr>
+      `;
     });
-  });
+
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+    orderHistory.innerHTML = html;
+
+    // Add event listeners for "View Details" buttons
+    orderHistory.querySelectorAll('.view-order-details').forEach(button => {
+      button.addEventListener('click', () => {
+        const orderId = button.dataset.orderId;
+        const orderData = orders.find(o => o.order_id == orderId); // Use '==' for string to number comparison if needed, or ensure types match
+        if (orderData) {
+          showOrderDetail(orderData);
+        } else {
+          console.error('Order data not found for ID:', orderId);
+          if(window.showToast) window.showToast('Không tìm thấy chi tiết đơn hàng.', 'error');
+        }
+      });
+    });
+
+  } catch (error) {
+    console.error('Error loading order history:', error);
+    orderHistory.innerHTML = `<p class="text-center text-gray-500 dark:text-gray-400 mt-6 text-sm">Lỗi tải lịch sử đơn hàng.</p>`;
+    if (window.showToast) window.showToast('Lỗi kết nối khi tải lịch sử đơn hàng.', 'error');
+  }
 }
 
 /**
  * Hiển thị chi tiết đơn hàng
  */
-function showOrderDetail(order) {
-  // Tạo modal hiển thị chi tiết đơn hàng
+function showOrderDetail(order) { // order object now comes from the API via /api/orders
   const modal = document.createElement('div');
-  modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50';
+  // Ensure z-index is high enough, e.g., z-50 if other elements are up to z-40
+  modal.className = 'fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black bg-opacity-60 transition-opacity duration-300 opacity-0'; 
   
-  // Format giá tiền
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  });
-  
+  const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+  const formattedTotal = formatter.format(order.total_amount);
+  const orderDate = new Date(order.order_date).toLocaleDateString('vi-VN');
+  const orderTime = new Date(order.order_date).toLocaleTimeString('vi-VN');
+
   let itemsHtml = '';
-  order.items.forEach(item => {
-    const itemTotal = item.price * item.quantity;
-    const formattedPrice = formatter.format(item.price);
-    const formattedTotal = formatter.format(itemTotal);
-    
-    itemsHtml += `
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.name}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${item.quantity}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedPrice}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedTotal}</td>
-      </tr>
-    `;
-  });
+  if (order.items && Array.isArray(order.items)) {
+    order.items.forEach(item => {
+      const itemTotal = item.price_at_purchase * item.quantity;
+      itemsHtml += `
+        <tr class="border-b dark:border-gray-700">
+          <td class="py-3 px-4 text-sm text-gray-600 dark:text-gray-300">
+            <div class="flex items-center">
+              <img src="${item.image_url || 'https://via.placeholder.com/50x50?text=No+Img'}" alt="${item.name}" class="w-10 h-10 object-cover rounded-md mr-3">
+              <span>${item.name}</span>
+            </div>
+          </td>
+          <td class="py-3 px-4 text-sm text-gray-600 dark:text-gray-300 text-center">${item.quantity}</td>
+          <td class="py-3 px-4 text-sm text-gray-600 dark:text-gray-300 text-right">${formatter.format(item.price_at_purchase)}</td>
+          <td class="py-3 px-4 text-sm text-gray-600 dark:text-gray-300 text-right">${formatter.format(itemTotal)}</td>
+        </tr>
+      `;
+    });
+  } else {
+    itemsHtml = '<tr><td colspan="4" class="text-center py-4 text-gray-500 dark:text-gray-400">Không có thông tin chi tiết sản phẩm.</td></tr>';
+  }
   
-  const formattedTotal = formatter.format(order.total);
-  
+  let statusClass = 'bg-gray-100 text-gray-800';
+  if (order.status === 'pending') statusClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+  else if (order.status === 'delivered' || order.status === 'shipped') statusClass = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+  else if (order.status === 'cancelled') statusClass = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+
   modal.innerHTML = `
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-4">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Chi tiết đơn hàng #${order.id}</h3>
-        <button id="closeOrderDetail" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col transform transition-transform duration-300 scale-95 opacity-0">
+      <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 p-5">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Chi Tiết Đơn Hàng #${order.order_id}</h3>
+        <button id="closeOrderDetail" aria-label="Đóng" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1 rounded-full">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
       
-      <div class="p-4">
-        <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="p-5 overflow-y-auto flex-grow">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6 text-sm">
           <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Ngày đặt hàng</p>
-            <p class="font-medium text-gray-900 dark:text-white">${order.date}</p>
+            <strong class="text-gray-500 dark:text-gray-400">Ngày đặt:</strong>
+            <span class="text-gray-700 dark:text-gray-200 ml-2">${orderDate} lúc ${orderTime}</span>
           </div>
           <div>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Trạng thái</p>
-            <p class="font-medium">
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.status === 'Đang xử lý' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
-                            ${order.status}
-                        </span>
-            </p>
+            <strong class="text-gray-500 dark:text-gray-400">Trạng thái:</strong>
+            <span class="ml-2 px-2.5 py-1 text-xs leading-5 font-semibold rounded-full ${statusClass}">
+              ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            </span>
           </div>
-                    </div>
+          <div class="sm:col-span-2">
+            <strong class="text-gray-500 dark:text-gray-400">Địa chỉ giao hàng:</strong>
+            <span class="text-gray-700 dark:text-gray-200 ml-2">${order.shipping_address}</span>
+          </div>
+        </div>
         
-        <div class="overflow-x-auto">
+        <h4 class="text-md font-semibold text-gray-700 dark:text-gray-200 mb-3">Sản phẩm đã đặt:</h4>
+        <div class="overflow-x-auto border rounded-lg dark:border-gray-700">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Sản phẩm</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Số lượng</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Đơn giá</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Thành tiền</th>
+                <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Sản phẩm</th>
+                <th class="py-3 px-4 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">SL</th>
+                <th class="py-3 px-4 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Đơn giá</th>
+                <th class="py-3 px-4 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Thành tiền</th>
               </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               ${itemsHtml}
             </tbody>
           </table>
-                    </div>
-                    
-        <div class="mt-4 text-right">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Tổng tiền</p>
-          <p class="text-lg font-bold text-gray-900 dark:text-white">${formattedTotal}</p>
-                    </div>
-                    </div>
-                </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-gray-700/50 rounded-b-xl">
+        <div class="flex justify-end items-center">
+            <span class="text-lg font-semibold text-gray-700 dark:text-gray-200 mr-2">Tổng cộng:</span>
+            <span class="text-xl font-bold text-primary">${formattedTotal}</span>
+        </div>
+      </div>
+    </div>
   `;
   
   document.body.appendChild(modal);
-  document.body.style.overflow = 'hidden';
-  
-  // Thêm sự kiện đóng modal
-  const closeButton = document.getElementById('closeOrderDetail');
-  closeButton.addEventListener('click', () => {
-    document.body.removeChild(modal);
-    document.body.style.overflow = '';
-  });
-  
-  // Đóng modal khi click ra ngoài
+  // Trigger transition
+  setTimeout(() => {
+    modal.classList.remove('opacity-0');
+    modal.querySelector('.transform').classList.remove('scale-95', 'opacity-0');
+  }, 10);
+
+
+  const closeButton = modal.querySelector('#closeOrderDetail');
+  const modalContent = modal.querySelector('.bg-white');
+
+  const closeModal = () => {
+    modal.classList.add('opacity-0');
+    modal.querySelector('.transform').classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+        if (document.body.contains(modal)) {
+            document.body.removeChild(modal);
+        }
+    }, 300); // Match duration of opacity transition
+  };
+
+  closeButton.addEventListener('click', closeModal);
   modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-      document.body.removeChild(modal);
-      document.body.style.overflow = '';
+    if (event.target === modal) { // Only close if clicking on the backdrop
+      closeModal();
     }
   });
 }
+
 
 /**
  * Cập nhật số lượng sản phẩm trong giỏ hàng

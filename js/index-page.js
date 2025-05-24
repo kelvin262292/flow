@@ -136,20 +136,40 @@ document.addEventListener('DOMContentLoaded', function() {
   filterAndRenderProducts(); // Initial render
 
   // Handle Add to Cart
-  const handleAddToCart = (event) => {
+  const handleAddToCart = async (event) => {
     const productId = parseInt(event.currentTarget.dataset.productId);
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingProductIndex = cart.findIndex(item => item.id === productId);
+    const quantity = 1; // Default quantity to add from product listings
 
-    if (existingProductIndex > -1) {
-      cart[existingProductIndex].quantity += 1;
-    } else {
-      cart.push({ id: productId, quantity: 1 });
+    try {
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: productId,
+          quantity: quantity,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (window.showToast) window.showToast(result.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+        if (window.updateCartCount) window.updateCartCount();
+      } else {
+        // Handle errors, like user not logged in (401), product not found (404), or server error (500)
+        if (response.status === 401) {
+           if (window.showToast) window.showToast(result.message || 'Bạn cần đăng nhập để thêm vào giỏ hàng.', 'error');
+           // Optionally redirect to login page: window.location.href = 'login.html';
+        } else {
+           if (window.showToast) window.showToast(result.message || 'Lỗi khi thêm vào giỏ hàng.', 'error');
+        }
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      if (window.showToast) window.showToast('Lỗi kết nối khi thêm vào giỏ hàng.', 'error');
     }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    if (window.showToast) window.showToast('Đã thêm sản phẩm vào giỏ hàng!');
-    if (window.updateCartCount) window.updateCartCount();
   };
 
   // Testimonial Carousel

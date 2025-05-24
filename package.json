@@ -7,7 +7,10 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "init-db": "node init-db.js",
-    "seed-db": "node seed-db.js"
+    "seed-db": "node seed-db.js",
+    "_build:css_disabled": "postcss ./css/input.css -o ./css/output.css --minify",
+    "build:js": "npx esbuild js/main.js --bundle --outfile=public/js/bundle.js --minify --sourcemap",
+    "build": "npm run _build:css_disabled && npm run build:js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.5",
@@ -23,6 +26,11 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest",
+    "postcss-cli": "latest",
+    "esbuild": "latest"
   }
 }

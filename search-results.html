@@ -10,31 +10,18 @@
   <meta property="og:url" content="[YOUR_WEBSITE_URL_HERE]">
   <meta property="og:type" content="website">
   <title>Kết quả tìm kiếm - Yapee Vietnam</title> <!-- Updated Title -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/output.css">
   <script>
+    // Initialize dark mode based on localStorage before full page load to prevent flicker
     (function() {
       const storedDarkMode = localStorage.getItem('darkMode');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const darkMode = storedDarkMode ? JSON.parse(storedDarkMode) : prefersDark;
       if (darkMode) {
         document.documentElement.classList.add('dark');
-      }
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              inter: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              primary: '#EF4444', // red-500
-              secondary: '#F97316', // orange-500
-            }
-          }
-        }
       }
     })();
   </script>
@@ -210,7 +197,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script> <!-- Added js/main.js -->
+  <script src="public/js/bundle.js" defer></script>
   <script>
     // Original inline script for search functionality (mobile menu toggle removed as it's in main.js)
     // Lấy tham số từ URL

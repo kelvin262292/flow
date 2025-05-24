@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // Dark Mode Toggle
   const darkModeToggle = document.getElementById('darkModeToggle');
   const darkIcon = document.getElementById('theme-toggle-dark-icon');
@@ -58,19 +58,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Cart Count Update
   const cartCountBadge = document.getElementById('cart-count-badge');
-  window.updateCartCount = function() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (cartCountBadge) {
-      if (totalItems > 0) {
-        cartCountBadge.textContent = totalItems;
-        cartCountBadge.style.display = 'flex';
+  window.updateCartCount = async function() {
+    if (!cartCountBadge) return;
+
+    try {
+      // Check login status first, as cart is user-specific
+      const authResponse = await fetch('/api/auth/status');
+      const authData = await authResponse.json();
+
+      if (authData.isLoggedIn) {
+        const cartResponse = await fetch('/api/cart');
+        if (cartResponse.ok) {
+          const cartItems = await cartResponse.json();
+          const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+          
+          if (totalItems > 0) {
+            cartCountBadge.textContent = totalItems;
+            cartCountBadge.style.display = 'flex'; // Ensure it's visible
+          } else {
+            cartCountBadge.style.display = 'none';
+          }
+        } else if (cartResponse.status === 401) { // Not logged in or session expired
+          cartCountBadge.style.display = 'none'; // Hide if not authenticated
+        } else {
+          // Other errors fetching cart (e.g., 500)
+          console.error('Failed to fetch cart for count:', cartResponse.status);
+          cartCountBadge.style.display = 'none'; // Optionally hide or show error state
+        }
       } else {
+        // User is not logged in, cart count should be hidden or 0
         cartCountBadge.style.display = 'none';
       }
+    } catch (error) {
+      console.error('Error updating cart count:', error);
+      if (cartCountBadge) cartCountBadge.style.display = 'none'; // Hide on error
     }
   };
-  updateCartCount(); // Initial call
+  // updateCartCount(); // Initial call - will be called after auth UI update
 
   // Current Year for Footer
   const currentYearElement = document.getElementById('currentYear');
@@ -183,7 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Initial call to set UI based on auth state
-  updateAuthUI();
+  await updateAuthUI(); // Make sure auth UI is updated first
+  updateCartCount(); // Then update cart count based on login status
 
 });
 
