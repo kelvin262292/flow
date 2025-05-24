@@ -5,31 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Liên hệ với Yapee Vietnam. Chúng tôi sẵn sàng hỗ trợ bạn với mọi thắc mắc về sản phẩm và dịch vụ.">
   <title>Liên Hệ - Yapee Vietnam</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/output.css">
   <script>
+    // Initialize dark mode based on localStorage before full page load to prevent flicker
     (function() {
       const storedDarkMode = localStorage.getItem('darkMode');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const darkMode = storedDarkMode ? JSON.parse(storedDarkMode) : prefersDark;
       if (darkMode) {
         document.documentElement.classList.add('dark');
-      }
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              inter: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              primary: '#EF4444', // red-500
-              secondary: '#F97316', // orange-500
-            }
-          }
-        }
       }
     })();
   </script>
@@ -264,7 +251,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="public/js/bundle.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const contactForm = document.getElementById('contactForm');
@@ -285,18 +272,18 @@
             .then(response => response.json())
             .then(data => {
               if (data.success) {
-                showToast('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ sớm liên hệ với bạn.', 'success');
+                if (window.showToast) window.showToast('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ sớm liên hệ với bạn.', 'success');
                 contactForm.reset();
               } else {
-                showToast('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.', 'error');
+                if (window.showToast) window.showToast('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.', 'error');
               }
             })
             .catch(error => {
               console.error('Lỗi kết nối:', error);
-              showToast('Có lỗi kết nối. Vui lòng kiểm tra lại.', 'error');
+              if (window.showToast) window.showToast('Có lỗi kết nối. Vui lòng kiểm tra lại.', 'error');
             });
           } else {
-            showToast('Vui lòng điền đầy đủ các trường bắt buộc.', 'error');
+            if (window.showToast) window.showToast('Vui lòng điền đầy đủ các trường bắt buộc.', 'error');
           }
         });
       }
